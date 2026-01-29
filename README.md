@@ -1,4 +1,4 @@
-# Trabalho LP
+# Trabalho LandingPage + Devops
 
 Uma landing page sobre um escritorio de advocacia
 
