@@ -37,6 +37,14 @@ jobs:
         with:
           name: dist-files
           path: dist/
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist/'
         
       - name: Deploy para o GitHub Pages
         id: deployment
