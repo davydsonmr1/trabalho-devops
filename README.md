@@ -31,7 +31,7 @@ Banner inicial com chamada à ação (CTA) e gradiente visual atraente.
 Grid responsivo com cards de áreas de serviço com hover interativo.
 
 ### Sobre
-Seção com informações sobre o projeto com destaques numéricos.
+Seção com informações sobre o projeto com destaques numéricos..
 
 ### Contato
 Formulário completo com validação de:
