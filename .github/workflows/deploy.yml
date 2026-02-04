@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+
 jobs:
   build:
     name: Build and Test
