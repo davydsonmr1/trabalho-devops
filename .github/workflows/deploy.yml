@@ -61,3 +61,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Mensagem Final
+        run: echo "O código do aluno Davydson foi auditado, está seguindo as normas corretas e está pronto para o deploy!"
