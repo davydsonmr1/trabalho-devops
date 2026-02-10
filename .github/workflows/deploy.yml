@@ -41,10 +41,11 @@ jobs:
             echo "Arquivo src/css/style.css não encontrado!"; exit 1;
           fi
 
+      - name: Instalar htmlhint
+        run: npm install -g htmlhint
+
       - name: Linting Profissional HTML
-        uses: htmlhint/htmlhint@v1
-        with:
-          target_pattern: 'src/index.html'
+        run: htmlhint src/index.html
 
       - name: Explorando a Runner
         run: lsb_release -a && free -h
