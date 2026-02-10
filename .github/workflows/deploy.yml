@@ -29,6 +29,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Verificar se a pasta src existe
+        run: |
+          if [ ! -d "src" ]; then
+            echo "Pasta src não encontrada!"; exit 1;
+          fi
+
+      - name: Verificar se o CSS existe
+        run: |
+          if [ ! -f "src/css/style.css" ]; then
+            echo "Arquivo src/css/style.css não encontrado!"; exit 1;
+          fi
+
+      - name: Linting Profissional HTML
+        uses: htmlhint/htmlhint@v1
+        with:
+          target_pattern: 'src/index.html'
+
       - name: Explorando a Runner
         run: lsb_release -a && free -h
         
