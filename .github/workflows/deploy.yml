@@ -29,32 +29,42 @@ jobs:
         run: npm install -g htmlhint
 
       - name: Linting Profissional HTML
-        run: htmlhint index.html
+
+        run: htmlhint *.html
 
       - name: Explorando a Runner
         run: lsb_release -a && free -h
         
+
       - name: preparando versao de produção (build)
         run: |
-          echo "iniciando pipeline de preparação"
+          echo "Limpando instalações anteriores..."
+          rm -rf dist
           
-          #criando a pasta de distribuição (dist)
+          echo "Criando a pasta dist do zero..."
           mkdir -p dist 
           
-          #movendo arquivos para a pasta de produção 
-          cp index.html dist/
+          echo "Copiando todos os arquivos HTML para a dist..."
+          cp *.html dist/
           
-          #copiando as pastas de assets e imagens (ajuste feito para a estrutura do seu projeto)
-          cp -r assets dist/ 2>/dev/null || echo "aviso: pasta assets nao encontrada"
-          cp -r img dist/ 2>/dev/null || echo "aviso: pasta img nao encontrada"
-          cp script.js dist/ 2>/dev/null || echo "aviso: script.js nao encontrado"
+          echo "Copiando a pasta assets inteira para a dist..."
+          cp -r assets dist/ 2>/dev/null || echo "Aviso: pasta assets não encontrada"
           
-          #tenta copiar o css se ele existir na raiz (conforme passado no quadro)
-          cp style.css dist/ 2>/dev/null || echo "aviso: style.css nao encontrado na raiz"
+          # Copiando itens extras do seu projeto original para não quebrar o visual
+          cp -r img dist/ 2>/dev/null || true
+          cp script.js dist/ 2>/dev/null || true
           
-          #verificando se a pasta dist esta correta 
+          echo "Listando o conteúdo da pasta dist para o log:"
           ls -R dist/
-          echo "pasta de produção (dist) gerada com sucesso !"
+
+      - name: Auditoria de Qualidade
+        run: |
+          echo "Iniciando verificação de integridade dos arquivos..."
+          test -f dist/index.html
+          test -f dist/sobre.html
+          test -f dist/contato.html
+          echo "Auditoria concluída: Todos os arquivos essenciais estão na pasta dist!"
+
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -62,7 +72,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist' # Mudamos para 'dist' para enviar a pasta gerada
+          path: 'dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
