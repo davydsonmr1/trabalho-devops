@@ -3,16 +3,12 @@ name: Deploy to Github Pages
 on:
   push:
     branches: ["main", "master"]
-
-    
   workflow_dispatch:
-
 
 permissions:
   contents: read
   pages: write
   id-token: write
-
 
 concurrency:
   group: "pages"
@@ -29,16 +25,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-
       - name: Instalar htmlhint
         run: npm install -g htmlhint
 
       - name: Linting Profissional HTML
-        run: htmlhint src/index.html
+        run: htmlhint index.html
 
       - name: Explorando a Runner
         run: lsb_release -a && free -h
         
+      - name: preparando versao de produção (build)
+        run: |
+          echo "iniciando pipeline de preparação"
+          
+          #criando a pasta de distribuição (dist)
+          mkdir -p dist 
+          
+          #movendo arquivos para a pasta de produção 
+          cp index.html dist/
+          
+          #copiando as pastas de assets e imagens (ajuste feito para a estrutura do seu projeto)
+          cp -r assets dist/ 2>/dev/null || echo "aviso: pasta assets nao encontrada"
+          cp -r img dist/ 2>/dev/null || echo "aviso: pasta img nao encontrada"
+          cp script.js dist/ 2>/dev/null || echo "aviso: script.js nao encontrado"
+          
+          #tenta copiar o css se ele existir na raiz (conforme passado no quadro)
+          cp style.css dist/ 2>/dev/null || echo "aviso: style.css nao encontrado na raiz"
+          
+          #verificando se a pasta dist esta correta 
+          ls -R dist/
+          echo "pasta de produção (dist) gerada com sucesso !"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -46,7 +62,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist' # Mudamos para 'dist' para enviar a pasta gerada
 
       - name: Deploy to GitHub Pages
         id: deployment
